@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>在线教育平台文件收发</title>
+  <style type="text/css">
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: wheat; 
+    } 
+    button{background-color: #fff;color:#000;-webkit-transition: all .4s;-moz-transition: all .4s;-ms-transition: all .4s;-o-transition: all .4s;transition: all .4s;
+        width: 82px;outline: none;font-size: 14px;
+        border-radius: 4px;
+        height: 25px;
+        line-height: 20px;
+        text-align: center;margin-left: 10px;
+        margin-bottom: 5px;
+        color: lightblue;
+        cursor: pointer;
+    }
+    #chat {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      border: 1px solid #0f0f0f;
+    }
+    #chat .fileIpt{
+      position: absolute;
+      left: 0;
+      width: 78%;
+      font-family: 微软雅黑;
+    }
+    #chat .sendFileBtn {
+      position: absolute; 
+      left: 75%;
+      width: 20%;
+      background-color: black;
+      color: white;
+      border: 1px solid white;
+      font-family: 微软雅黑;
+    } 
+    #chat .sendFileBtn:hover{ 
+      background-color: white;
+      color: black;
+      border: 1px solid black;
+    }
+    #files {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+    }
+    #files .name {
+    }
+    #files .percent {
+      border: solid 1px lightgray;
+      border-radius: 4px;
+      width: 100%;
+      font-weight: bold;
+      text-decoration: none;
+      overflow: hidden;
+    }
+    #files p{
+      font-size: 12px;
+      text-indent: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat"> 
+    <input type="file" id="fileIpt" class="fileIpt">
+    <button id="sendFileBtn" class="sendFileBtn">发送文件</button> 
+  </div> 
+  <div id="files">
+  </div>
+</body>
+<script type="text/javascript" src="www/js/SkyRTC-client.js"></script>
+<script type="text/javascript">
+  //获取用户名称   
+  var thehref = window.location.href;
+  var who=thehref.split("?")[1]; 
+  //alert(who);
+  document.getElementById('sendFileBtn').innerHTML=who+'|发送';
+
+  /**********************************************************/ 
+
+  var sendFileBtn = document.getElementById("sendFileBtn");
+  var files = document.getElementById("files");
+  var rtc = SkyRTC();//实例化rtc类
+
+  /**********************************************************/ 
+
+  sendFileBtn.onclick = function(event){
+    //分享文件
+    rtc.shareFile("fileIpt");
+	console.log(rtc.test);
+  };
+
+  /**********************************************************/ 
+  //对方同意接收文件
+  rtc.on("send_file_accepted", function(sendId, socketId, file){
+    var p = document.getElementById("sf-" + sendId);
+    p.innerText = "用户【"+socketId + "】允许接收" + file.name + "文件，等待发送";
+
+  });
+  //对方拒绝接收文件
+  rtc.on("send_file_refused", function(sendId, socketId, file){
+    var p = document.getElementById("sf-" + sendId);
+    p.innerText = "用户【"+socketId + "】拒绝接收" + file.name + "文件";
+  });
+  //请求发送文件
+  rtc.on('send_file', function(sendId, socketId, file){
+    var p = document.createElement("p");
+    p.innerText =socketId+ "请求发送" + file.name + "文件";
+    p.id = "sf-" + sendId;
+    files.appendChild(p);
+  });
+  //文件发送成功
+  rtc.on('sended_file', function(sendId, socketId, file){
+    var p = document.getElementById("sf-" + sendId);
+    p.parentNode.removeChild(p);
+  });
+  //发送文件碎片
+  rtc.on('send_file_chunk', function(sendId, socketId, percent, file){
+    var p = document.getElementById("sf-" + sendId);
+    p.innerText = file.name + "文件正在发送: " + Math.ceil(percent) + "%";
+  });
+  //接受文件碎片
+  rtc.on('receive_file_chunk', function(sendId, socketId, fileName, percent){
+    var p = document.getElementById("rf-" + sendId);
+    p.innerText = "正在接收" + fileName + "文件：" +  Math.ceil(percent) + "%";
+  });
+  //接收到文件
+  rtc.on('receive_file', function(sendId, socketId, name){
+    var p = document.getElementById("rf-" + sendId);
+    p.parentNode.removeChild(p);
+  });
+  //发送文件时出现错误
+  rtc.on('send_file_error', function(error){
+    console.log(error);
+    var p = document.createElement("p");
+    p.innerText =socketId+ "发送文件失败，错误信息:" + error; 
+    files.appendChild(p);
+  });
+  //接收文件时出现错误
+  rtc.on('receive_file_error', function(error){
+    console.log(error);
+    var p = document.createElement("p");
+    p.innerText =socketId+ "接收文件失败，错误信息:" + error; 
+    files.appendChild(p);
+  });
+  //接受到文件发送请求
+  rtc.on('receive_file_ask', function(sendId, socketId, fileName, fileSize){
+    var p;
+    //var con=window.confirm(socketId + "用户想要给你传送" + fileName + "文件，大小" + fileSize + "KB,是否接受？");
+    var con=window.confirm("用户【"+socketId + "】想要给你传送" + fileName + "文件，大小" + fileSize + "KB,是否接受？");
+    if (con) {
+      rtc.sendFileAccept(sendId);
+      p = document.createElement("p");
+      p.innerText = "准备接收" + fileName + "文件";
+      p.id = "rf-" + sendId;
+      files.appendChild(p);
+    } else {
+      rtc.sendFileRefuse(sendId);
+    }
+  }); 
+  //成功创建WebSocket连接
+  rtc.on("connected", function(socket) {
+    //创建本地视频流
+    rtc.createStream({
+      "video": false,
+      "audio": true
+    });
+  });
+  
+  //连接WebSocket服务器
+  rtc.connect("ws:" + window.location.href.substring(window.location.protocol.length).split('#')[0], window.location.hash.slice(1));
+  //rtc.connect("ws://192.168.1.103:3000/", room); 
+</script>
+</html>

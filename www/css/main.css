@@ -1,0 +1,304 @@
+* { margin: 0; padding: 0; font-family: 微软雅黑; }
+html{height: 100%;width: 100%;}
+body {height:100%;font: 13px Helvetica, Arial;background-color: linear-re;overflow-x:hidden;
+    background: url("../img/index-bg.jpg") no-repeat;background-size: 100% 100%;overflow: hidden;
+}
+input,button,li,a{cursor: pointer;}
+li{list-style: none;}
+a{text-decoration: none;} 
+input[type=color]{width: 30px;height: 20px; }
+/*滚动条样式*/
+::-webkit-scrollbar{width:2px;}
+::-webkit-scrollbar-track{background-color:#bee1eb;}
+::-webkit-scrollbar-thumb{background-color:#00aff0;}
+::-webkit-scrollbar-thumb:hover {background-color:#9c3}
+::-webkit-scrollbar-thumb:active {background-color:#00aff0}
+
+::scrollbar{width:2px;}
+::scrollbar-track{background-color:#bee1eb;}
+::scrollbar-thumb{background-color:#00aff0;}
+::scrollbar-thumb:hover {background-color:#9c3}
+::scrollbar-thumb:active {background-color:#00aff0}
+ 
+/* scrollbar-3d-light-color 设置或检索滚动条亮边框颜色 */
+/* 　　scrollbar-highlight-color 设置或检索滚动条3D界面的亮边（ThreedHighlight）颜色 */
+/* 　　scrollbar-face-color 设置或检索滚动条3D表面（ThreedFace）的颜色 */
+/* 　　scrollbar-arrow-color 设置或检索滚动条方向箭头的颜色 */
+/* 　　scrollbar-shadow-color 设置或检索滚动条3D界面的暗边（ThreedShadow）颜色 */
+/* 　　scrollbar-dark-shadow-color 设置或检索滚动条暗边框（ThreedDarkShadow）颜色 */
+/* 　　scrollbar-base-color 设置或检索滚动条基准颜色。其它界面颜色将据此自动调整 */
+ 
+/*清除谷歌浏览器记住密码后文本框黄色背景*/
+input:-webkit-autofill {
+	background-color: #FAFFBD;
+	background-image: none;
+	color: #000;
+}
+input:-moz-autofill {
+	background-color: #FAFFBD;
+	background-image: none;
+	color: #000;
+}
+/*webkit内核浏览器range标签样式*/
+input[type=range] {   
+    -webkit-appearance: none;
+    width: 100px;
+    border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+} 
+input[type=range]::-moz-slider-thumb {
+    -webkit-appearance: none;
+}    
+input[type=range]::-webkit-slider-runnable-track {
+    height: 10px; 
+    border-radius: 10px; /*将轨道设为圆角的*/
+    box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112; /*轨道内置阴影效果*/
+}
+input[type=range]::-moz-slider-runnable-track {
+    height: 10px; 
+    border-radius: 10px; /*将轨道设为圆角的*/
+    box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112; /*轨道内置阴影效果*/
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+	-moz-appearance:none;
+    height: 15px;
+    width: 15px;
+    margin-top: -1px; /*使滑块超出轨道部分的偏移量相等*/
+    background: lightblue; 
+    border-radius: 50%; /*外观设置为圆形*/
+    border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
+    box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+}
+/*工具栏*/
+#toolBarSlider{
+    display: none;
+    width: 100%;
+    height: 40px;
+    position: absolute; 
+    top: 0;
+    text-align: center;
+    background-color: black;
+    line-height: 40px;
+    z-index: 999;
+    color: white;
+    cursor: pointer;
+}
+#toolBarSlider:hover{
+    border: solid 2px white;
+    background-color: darkgray;
+    transition: all .2s ease;
+}
+#toolBar{ 
+    margin-top: 42px;
+    position: relative;
+    display: none;
+    width: 100%;
+    height: 0;   
+    padding-top: 2px;
+    z-index: 988;
+}
+.rollDown{
+    display: block;
+    height: 200px !important;
+    transition: all .25s ease;
+}
+.rollDown li{
+    display: block !important;
+}
+#toolBar li{
+    display: none;
+}
+.rollUp{
+    height: 0;
+    transition: all .25s ease;
+}
+#toolBar ul{ 
+    height: 28px; 
+}
+#logout_li{
+     background-color: black !important;
+} 
+#toolBar li{ 
+    list-style: none;
+    height: 28px;
+    line-height: 28px;  
+    width: 100%;
+    border-bottom: 1px solid #e4e4ea;
+}
+#toolBar li a{
+    display: block;
+    min-width: inherit;
+    height: inherit;
+    line-height: inherit;
+    background-color: #fff;
+    text-align: center;
+    transition: all .3s ease;
+    border-radius: 0;
+    font-size: 14px;
+}
+#toolBar li a:hover{
+    transform: scale(1.04);
+    background-color: black;
+    color: #fff;
+    border: 1px solid white;
+}
+#toolBar #logout:hover{
+    background-color: lightcoral !important; 
+    color: white;
+}
+/*聊天界面*/
+#chatRoom{display: none;width:320px;height:570px; z-index:77;position: absolute;right: 0px;float:right;
+    bottom:0px; background: black;border-radius: 4px !important;}
+
+#onChatBox{width:320px;height:570px; margin: 0 auto; border:2px solid rgb(130, 224, 255); background: black;border-radius: 4px !important;}
+#chatNav ul{width: 320px;height: 28px;text-align: center;}
+#chatNav ul li{border: 2px black solid;float: left;width: 32%;height: 28px;}
+#chatNav ul li a{display: block;font-size: 14px;height: 28px;line-height: 28px;width: 100%;border-radius: 2px;background-color: #fff;
+    -webkit-transition: all .4s;-moz-transition: all .4s;-ms-transition: all .4s;-o-transition: all .4s;transition: all .4s;}
+#chatNav ul li a:hover{background-color: black;color: white;box-shadow: 0 0 2px 2px white inset,0 0 1px 1px rgb(130, 224, 255);}
+#messages {position: absolute;width: 319px; height:505px;float: right;overflow-y:auto;top:35px}
+#messages li{margin: 8px 4px;padding: 2px 0;word-break:break-all;word-wrap : break-word ;color: white;
+		font-size: 12px;height: auto;border-radius: 5px;line-height: 28px;padding: 5px 5px;} 
+#userlist{position: absolute;border:1px solid black;height:468px;width: 250px;display: none;z-index: 4;
+		background-color: rgba(255,255,255,0.3);overflow-y:auto;margin-top: 2px;}
+#userlist li{width: 60%;margin: 2px 4px;padding: 3px 0;word-break:break-all;word-wrap : break-word ;font-size: 12px;height: auto;height: auto;}
+#userlist li a{width: 100%;color:black;display: inline-block;border: 1px white solid;border-radius: 2px;line-height: 28px;}
+#userlist li:hover{color:orange;background:white;}
+
+#emojibox{position: absolute;border:1px solid mediumpurple;height:468px;width: 250px;z-index: 5;background-color: rgba(255,255,255,0.85);overflow-y:auto;margin-top: 2px;display: none;}
+#emojibox li{display: block;float: left;width: 60px;height: 80px;margin: 10px 10px;}
+#emojibox li img{width: 100%;height:60px;display: inline-block;border-radius: 4px;} 
+#emojibox .emoji:hover{cursor: pointer;}
+#emojibox li span{width: 100%;height:18px;display: block;border-radius: 4px;background: lightgray;font-size: 12px;text-overflow: clip;overflow: hidden;white-space: nowrap;text-align: center;}
+
+#chatCtrl{ width: 320px ;height: 30px;position: absolute;top: 540px;float: left;}
+#showEmoji{position: absolute;border: none;outline: none;width: 27px;height: 28px;background-image: url("../img/face.png");z-index: 5;background-size: 100%;}
+#m{width: 318px;height: 28px;position: absolute;left: 0;bottom: 0px;text-indent: 28px;}
+#send{width: 30px;height: 28px;border: none;outline: none;
+    color:  rgb(130, 224, 255);background: rgba(0,0,0,0);
+    position: absolute;right: 0px;bottom: 0px;background-image: url("../img/bg_send.png");}
+ 
+
+/*快速回复@某人*/
+.atYou{display: block;width:auto;height:auto;float: right;border: solid 1px lightgray;border-radius: 5px;}
+.atYou:hover{cursor: pointer;background: hotpink;color: white;}
+
+
+/*登录界面*/ 
+#loginBox{display: block;background-color: transparent;width:320px;min-height:568px; margin: 5% auto;z-index: 8;}
+#btnGroup{
+}
+#n{color: black;height:35px;width: 250px;background-color: #fff;outline: none;border: none;
+    border-bottom: 1px solid lightblue;text-indent: 5px;border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;cursor:default;
+}
+#login{color: rgb(189, 16, 35);height:36px;width: 60px;margin: 50px auto; 
+     outline: none;border-radius: 0;
+     border-bottom-right-radius: 5px !important;border-top-right-radius: 5px !important;
+     transition:all 0.6s ;-webkit-transition:all 0.6s; -moz-transition:all 0.6s; 
+}
+#title{text-align: center;font-size: 34px;color:rgb(130, 224, 255); width: 320px;margin: 60px auto;
+    text-shadow: 1px 1px 2px black,-1px -1px 2px lightgray;
+}
+
+
+/*教师白板*/ 
+/*自定义鼠标显示样式图片*/
+/*#draw{cursor:url("../img/pen.png"),auto;} */
+#whiteBoard{display: none;position: absolute; height: 650px;width: 988px;left:10px;float:left;bottom:-48px;z-index: 2;}
+#drawOption{display: none;position: absolute;width: 100px;left: 0;height: 570px;border: solid 2px #41a583;border-radius: 30px;
+            text-align: left;background-color:black;bottom:0;color: lightblue;top: 28px;left: 4px;}
+#drawOptionSlider{display: block;border: solid 1px lightgray;width: 28px;height: 52px;position: absolute;left:4px;top: 50%;margin-top: -26px;}
+#drawOptionSlider:hover{cursor: pointer;}
+canvas{border:4px solid #000;border-radius: 30px;background-color: #EFEFEF;}
+/*canvas:hover{cursor: crosshair;}*/
+label{display: inline-block;padding-left: 5px;}
+input{display: inline-block;}
+h2{width:100%;text-align:center;}
+/*打开本地文件样式开始*/
+.a-upload {
+	width: 80px;
+	border-radius: 5px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	margin-left: 10px;
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
+} 
+.a-upload  input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+} 
+.a-upload:hover {
+    color: #444;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none
+}
+/*打开本地文件样式结束*/
+input[type='button']:hover{color: white;background-color: black;box-shadow: 0 0 1px 1px white inset,0 0 1px 1px rgb(130, 224, 255);}
+#shootPic{
+    
+}
+#freeShootPic{
+    
+}
+/*共享画布*/
+#shareCanvas{
+    
+}
+#cleanScreen{
+    background-color: rgb(130, 224, 255);color: hotpink;
+     
+}
+#drawOption input[type='button']{background-color: #fafafa;;color:#888;-webkit-transition: all .4s;-moz-transition: all .4s;-ms-transition: all .4s;-o-transition: all .4s;transition: all .4s;
+    width: 82px;outline: none;font-size: 14px;
+    border-radius: 4px;
+    height: 25px;
+    line-height: 20px;
+    text-align: center;margin-left: 10px;
+    margin-bottom: 5px;
+}
+input[type='color']{width: 50px;height: 20px; margin-bottom: 10px;border-radius: 4px;}
+input[type='range']{margin-bottom: 10px;}
+.degree{text-align: right;display: block;width: 100%;margin-left: -7px;}
+#penPixel{width: 47px;text-align: center;border-radius: 4px;}
+
+/*视频聊天*/
+#faceBoard{display:none;position: absolute; height: auto;width: auto;left:10px;float:left;
+	border:solid 1px red;bottom:10px;z-index: 2;}
+#myself{border:solid 1px black;}
+.others{border:solid 1px blue;width:100px;height:70;}
+
+
+
+
+
+
+
+
+
+
+
+
+

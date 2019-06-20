@@ -1,0 +1,392 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="wcmailone@163.com">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.0, user-scalable=yes" />
+    <meta name="apple-touch-fullscreen" content="YES" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- 用来防止别人在框架里调用自己的页面 -->
+    <meta http-equiv="Window-target" content="_top">
+    <title>Believer's chat room</title>
+    <script type="text/javascript">
+        //画板尺寸调整
+        var newSize = 0;
+
+        function resizeCanvas(id) {
+            newSize = parseInt($("#" + id).val());
+            $("." + id).html(newSize);
+            console.log(id);
+            if (id == 'resizeX') {
+                $("#whiteBoard").css('width', parseInt(newSize + 8));
+                $("#draw").attr('width', newSize);
+            } else {
+                $("#whiteBoard").css('height', parseInt(newSize + 80));
+                $("#draw").attr('height', newSize);
+            }
+        }
+    </script>
+    <!-- 把地址栏前的图标换成自己的 -->
+    <link rel="Shortcut Icon" type="text/css" href="www/img/favicon.ico">
+    <link rel="Shortcut icon" href="www/img/favicon.ico" />
+    <link rel="Bookmark" href="www/img/favicon.ico">
+    <style>
+        body {
+            width: 100%;
+            height: 768px;
+        }
+    </style>
+    <script type="text/javascript">
+        //自适应布局
+        function myscreen() {
+            var sWidth = document.body.clientWidth;
+            var sHeight = document.body.clientHeight;
+            var chatDiv = document.getElementById("onChatBox");
+            var LoginBox = document.getElementById('loginBox');
+            var statusLoginBox = LoginBox.style.display;
+
+            if (sWidth <= 768 || statusLoginBox != 'none') {
+                //alert(sHeight);
+                //alert(statusLoginBox);
+                document.getElementById('whiteBoard').style.display = 'none';
+                chatDiv.style.border = "none";
+            } else {
+                document.getElementById('whiteBoard').style.display = 'block';
+                chatDiv.style.border = "solid";
+                chatDiv.style.right = '110px';
+                chatDiv.style.bottom = '10px';
+            }
+        }
+    </script>
+</head>
+
+<body onresize="myscreen();" onload="reloadEmojis()">
+    <div id="toolBarSlider">well well welcome</div>
+    <ul id="toolBar">
+        <li><a class="disChat">收起聊天</a></li>
+        <li><a class="disDraw">收起画板</a></li>
+        <li><a id="fileshare">文件共享</a></li>
+        <li><a id="videotalk">视频聊天</a></li>
+        <li><a id="FullScreen">进入全屏</a></li>
+        <li id="logout_li" class="logout"><a id="logout" disabled="disabled">Exit</a>
+    </ul>
+    <!-- 登录模块 开始-->
+    <div id="loginBox">
+        <div id="title">实时在线教育平台</div>
+        <hr color="lightgray" style="position:absolute;width:1000px;left:50%;margin-left:-500px;">
+        <!-- <input id="n" autocomplete="off" placeholder="Begin with a wonderful nickname..."/> 
+		<button id="login">login</button>  -->
+        <input type="hidden" name="hideUname" id="hideUname" value="">
+        <div id="btnGroup">
+            <input id="n" autocomplete="off" placeholder="Begin with a wonderful ID" value="" />
+            <input type="button" value="join" id="login" />
+        </div>
+    </div>
+    <!-- 登录模块 结束 -->
+    <!-- 聊天室模块 开始 -->
+    <div id="chatRoom">
+        <audio id="myAudio4" src="www/media/4.wav" hidden="true" autostart="false"> </audio>
+        <audio id="myAudio3" src="www/media/3.wav" hidden="true" autostart="false"> </audio>
+        <audio id="myAudio2" src="www/media/2.wav" hidden="true" autostart="false"> </audio>
+        <audio id="myAudio1" src="www/media/1.wav" hidden="true" autostart="false"> </audio>
+        <div id="onChatBox">
+            <div id="chatNav">
+                <ul>
+                    <li><a id="showUserlist">【Online】</a></li>
+                    <!-- <li><a id="facetime" onclick="return confirm('确定视频 ?');">FaceTime</a></li> -->
+                    <li><a id="switchBg">透明</a></li>
+                    <li><a class="disChat">收起聊天</a></li>
+                </ul>
+            </div>
+            <ul id="userlist"></ul>
+            <ul id="messages"></ul>
+            <ul id="emojibox"></ul>
+            <div id="chatCtrl">
+                <button id="showEmoji"></button>
+                <input id="m" autocomplete="off" placeholder="双击在线列表的用户名，就可以私聊TA哟！" />
+                <button id="send" disabled="disabled" title="Enter可直接发送消息!"></button>
+            </div>
+        </div>
+    </div>
+    <!-- 聊天室模块 结束 -->
+    <!-- 画板模块 开始 -->
+    <div id="whiteBoard">
+        <!--oncontextmenu="return false"屏蔽快捷菜单-->
+        <h2 style="color: white">白板沙盒<span id="test">鼠标位置</span></h2>
+        <canvas id="draw" width="980" height="570" oncontextmenu="return false"></canvas>
+        <div id="drawOptionSlider">显示绘画设置</div>
+        <div id="drawOption"> <br>
+            <label for="drawPanColor">画 板:</label><input id="drawPanColor" type="color" value="#ffffff" /><br>
+            <label for="penColor">画 笔:</label><input id="penColor" type="color" value="#ff0000"></input>
+            <label for="penPixel">笔 线:</label><input type="number" id="penPixel" min="1" max="20" value="6"></input>
+            <br><br><br><br>
+            <label for="eraserSize">橡皮尺寸</label>
+            <hr />
+            <input type="range" id="eraserSize" min="1" max="100" value="30" step="2"></input>
+            <span id="sizenum" class="degree">30 px</span><br>
+            <!-- <label>笔触校准</label><hr/>
+				<input type="range" id="fixPenX" min="-300" max="500"  value="10" step="2"></input> 
+				<span id="fixX" class="degree">X:10 px</span>
+				<input type="range" id="fixPenY" min="-300" max="500"  value="85" step="2" ></input>
+				<span id="fixY" class="degree">Y:85 px</span>
+				<br> <br> <br> -->
+            <label>画板缩放</label>
+            <hr />
+            <input type="range" id="resizeX" min="200" max="1900" value="980" step="10"
+                onchange="resizeCanvas('resizeX')"></input>
+            <span id="resizeXnum" class="resizeX">X:980 px</span>
+            <input type="range" id="resizeY" min="570" max="1080" value="570" step="10"
+                onchange="resizeCanvas('resizeY')"></input>
+            <span id="resizeYnum" class="resizeY">Y:570 px</span>
+            <br> <br> <br>
+            <a href="javascript:;" class="a-upload">
+                <input type="file" id="imgOne" />本地图片
+            </a><br><br>
+            <input id="shootPic" type="button" value="一键截屏" />
+            <!-- <input id="freeShootPic" type="button" value="自由截屏" /> -->
+            <input id="shareCanvas" type="button" value="画布共享" />
+            <input id="cleanScreen" type="button" value="清空画布" />
+        </div>
+        <img id="imgPre" src="" style="display: block;" />
+    </div>
+    <!-- 画板模块 结束 -->
+    <!-- 视频模块 结束 -->
+    <div id="faceBoard">
+        <video id="myself" width=100 height=70 autoplay loop></video>
+        <video id="others" class="others" width=100 height=70 autoplay loop></video>
+        <canvas id="localVideo" width=100 height=70></canvas>
+    </div>
+    <!-- 视频模块 结束 -->
+    <!--<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>-->
+    <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script>-->
+    <script src="www/js/jquery-2.1.4.min.js"></script>
+    <script src="www/js/socket.io.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#n').focus();
+
+            //鼠标靠近画板左侧边缘处显示工具栏
+            $("body").mousemove(function (e) {
+                var moX = e.pageX;
+                var moY = e.pageY;
+                if (moY > 210) {
+                    $("#toolBar").show(200);
+                    $("#toolBar").removeClass('rollDown');
+                }
+            });
+
+            $("#toolBarSlider").mouseover(function (e) {
+                $("#toolBar").addClass('rollDown');
+            });
+
+            //或是点击slider
+            $("#toolBarSlider").click(function (e) {
+                $("#toolBar").addClass('rollDown');
+                $("#toolBarSlider").css('display', 'none');
+
+                // $("#toolBar").animate({'height':240},200);
+                // $("#toolBarSlider").animate({'height':0},200);
+                return false;
+            });
+            $("body").click(function (e) {
+                var ifLogin = $('#loginBox').css('display');
+                if (ifLogin != 'block') {
+                    // $("#toolBar").animate({'height':0},200);
+                    // $("#toolBarSlider").animate({'height':40},200);
+                    $("#toolBar").removeClass('rollDown');
+                    $("#toolBarSlider").css('display', 'block');
+                    //$("#toolBarSlider").show(200);
+                }
+            });
+
+        })
+    </script>
+    <script type="text/javascript">
+        //加载聊天表情列表
+        function reloadEmojis() {
+            var emojiArr = [
+                { 'src': 'www/img/face/01.jpeg', 'alt': '给你个眼神' },
+                { 'src': 'www/img/face/02.jpg', 'alt': '别装了' },
+                { 'src': 'www/img/face/03.png', 'alt': '想表达啥' },
+                { 'src': 'www/img/face/04.jpeg', 'alt': '表哥救命' },
+                { 'src': 'www/img/face/05.jpg', 'alt': '你是sb' },
+                { 'src': 'www/img/face/06.jpeg', 'alt': '活不过今天' },
+                { 'src': 'www/img/face/07.jpg', 'alt': '走，打死你' },
+                { 'src': 'www/img/face/08.jpeg', 'alt': '握日' },
+                { 'src': 'www/img/face/09.jpeg', 'alt': '你以为' },
+            ]
+            for (var i = emojiArr.length - 1; i >= 0; i--) {
+                var emojiItem = '<li class="emojia"><img class="emoji" src="' + emojiArr[i].src + '" alt="' + emojiArr[i].alt + '"><span>' + emojiArr[i].alt + '</span></li>';
+                document.getElementById('emojibox').innerHTML += emojiItem;
+            }
+        }
+
+        // 全屏显示函数
+        function launchFullscreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+        }
+        //退出全屏函数
+        function exitFullscreen() {
+            var de = document;
+            if (de.exitFullscreen) {
+                de.exitFullscreen();
+            } else if (de.mozCancelFullScreen) {
+                de.mozCancelFullScreen();
+            } else if (de.webkitCancelFullScreen) {
+                de.webkitCancelFullScreen();
+            }
+        }
+        $(function () {
+            //进入全屏、退出全屏
+            $("#FullScreen").click(function () {
+                var curStatus = $(this).text();
+                if (curStatus == "进入全屏") {
+                    $(this).text("退出全屏");
+                    launchFullscreen(document.documentElement)
+                } else {
+                    $(this).text("进入全屏");
+                    exitFullscreen();
+                }
+            })
+
+
+
+            // 主页面鼠标右键、F5刷新事件控制
+            //禁止刷新
+            // $(window).bind('beforeunload',function(e){ 
+            //     return false;
+            // });	
+            $(document).keydown(function (event) {
+                var code = event.keyCode;
+                if (code == 116) {
+                    alert("禁止刷新");
+                    return false;
+                }
+                if (code == 13) {
+                    //按下enter按钮，使用trigger模拟#send的click事件，发送消息
+                    $("#send").trigger('click');
+                }
+            });
+
+
+            //事件冒泡处理 禁止右键 点击whiteboard区域终止于此，不再执行$("body").mousedown
+            $("body").mousedown(function (e) {
+                if (e.which == 3) {
+                    alert("此页面仅画板部分允许触发右键！");
+                    return false;
+                }
+            });
+            $("#draw,#messages").mousedown(function (e) {
+                return false;
+            });
+
+            $('#switchBg').click(function () {
+                if ($("#switchBg").text() == '透明') {
+                    $("#onChatBox").css('background', 'transparent');
+                    $("#chatRoom").css('background', 'transparent');
+                    $("#switchBg").text("雅黑")
+                } else {
+                    $("#onChatBox").css('background', 'black');
+                    $("#chatRoom").css('background', 'black');
+                    $("#switchBg").text("透明")
+                }
+            })
+
+            // 折叠聊天框
+            $('.disChat').click(function () {
+                if ($(this).text() == '收起聊天') {
+                    $("#chatRoom").hide(300);
+                    $(".disChat").text("展开聊天");
+                } else {
+                    $("#chatRoom").show(300)
+                    $(".disChat").text("收起聊天")
+                }
+            })
+
+            //折叠画板
+            $('.disDraw').click(function () {
+                if ($(this).text() == '收起画板') {
+                    $("#whiteBoard").hide(300);
+                    $(".disDraw").text("展开画板");
+                } else {
+                    $("#whiteBoard").show(300)
+                    $(".disDraw").text("收起画板")
+                }
+            })
+
+
+
+            //这个地址根据自己机器所在局域网的地址修改
+            //var baseURL="http://wcdemo.in.3322.org:17639";//公yun
+            //var baseURL="http://192.168.1.103:3001";//根据本地ip配置，可以在同一网络环境下进行访问
+            var baseURL = "/"; //本机多浏览器窗口测试
+            //判断是否拥有摄像头支持
+            $('#videotalk').click(function () {
+                confirm(
+                    "视频聊天",
+                    "页面将会获取您的音视频多媒体设备,确认开启视频聊天吗？",
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            //             if (navigator.getUserMedia) {
+                            //    //var videoURL=baseURL+"/video.html?"+$("#hideUname").val();
+                            //    var videoURL=baseURL+"/video.html?room";
+                            // 	   window.open(videoURL,"_blank","toolbar=no, location=yes, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=1366, height=768");  
+                            // } 
+                            // else{
+                            //     alert("getUserMedia not supported"); 
+                            //     return ;
+                            // }  
+                            var videoURL = baseURL + "video.html?video";
+                            window.open(videoURL, "_blank", "toolbar=no, location=yes, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=1366, height=768");
+                        } else {
+                            alert(
+                                "放弃视频",
+                                "您已放弃视频会话",
+                                function () { }, {
+                                    width: 300,
+                                    height: 230,
+                                    type: 'info',
+                                    confirmButtonText: 'OK'
+                                }
+                            )
+                        }
+                    }, {
+                        width: 300,
+                        height: 230,
+                        type: 'question',
+                        confirmButtonText: 'YES',
+                        cancelButtonText: 'NO'
+                    }
+                );
+            })
+
+            //新窗口打开文件发送
+            $('#fileshare').click(function () {
+                var fromU = $("#hideUname").val();
+                //var videoURL=baseURL+"/sendfile.html?"+fromU;
+                var videoURL = baseURL + "/sendfile.html?file";
+                //var videoURL=baseURL+"/sendfile.html";
+                window.open(videoURL, "_blank", "toolbar=no, location=yes, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=430, height=300");
+            });
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="www/css/main.css">
+    <!-- 引入弹出层插件 -->
+    <link rel="stylesheet" href="www/lib/jquery-alert/BeAlert.css">
+    <script src="www/lib/jquery-alert/BeAlert.js"></script>
+    <script type="text/javascript" src="www/js/client.js"></script>
+    <script type="text/javascript" src="www/js/whiteBoard.js"></script>
+    <script type="text/javascript" src="www/js/wc_piczoomIn.js"></script>
+</body>
+
+</html>

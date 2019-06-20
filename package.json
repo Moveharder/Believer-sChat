@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "express": "^4.16.4",
+    "helmet": "^3.18.0",
+    "moment": "^2.24.0",
+    "node-uuid": "^1.4.7",
+    "skyrtc": "0.0.2",
+    "ws": "^1.1.1",
+    "socket.io": "^1.5.1"
+  }
+}
