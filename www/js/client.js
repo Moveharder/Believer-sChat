@@ -1,6 +1,6 @@
 //var socket = io.connect("http://wcdemo.in.3322.org:17639");//根据本地ip配置 公云
 //var socket = io.connect("192.168.1.103:3000");//根据本地ip配置，可以在同一网络环境下进行访问
-var socket = io.connect("https://chatroom.18150850030.now.sh:3000");//本机多浏览器窗口测试
+var socket = io.connect();//本机多浏览器窗口测试
 //var socket = io(); //这种只能本地运行127.0.0.1:3000/index.html访问
 //console.log(socket.id);//在内部可以获得
 var user={userid:null,username:null,socketid:null};//用户信息 

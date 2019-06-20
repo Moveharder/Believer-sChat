@@ -29,9 +29,9 @@
         }
     </script>
     <!-- 把地址栏前的图标换成自己的 -->
-    <link rel="Shortcut Icon" type="text/css" href="www/img/favicon.ico">
-    <link rel="Shortcut icon" href="www/img/favicon.ico" />
-    <link rel="Bookmark" href="www/img/favicon.ico">
+    <link rel="Shortcut Icon" type="text/css" href="./img/favicon.ico">
+    <link rel="Shortcut icon" href="./img/favicon.ico" />
+    <link rel="Bookmark" href="./img/favicon.ico">
     <style>
         body {
             width: 100%;
@@ -87,10 +87,10 @@
     <!-- 登录模块 结束 -->
     <!-- 聊天室模块 开始 -->
     <div id="chatRoom">
-        <audio id="myAudio4" src="www/media/4.wav" hidden="true" autostart="false"> </audio>
-        <audio id="myAudio3" src="www/media/3.wav" hidden="true" autostart="false"> </audio>
-        <audio id="myAudio2" src="www/media/2.wav" hidden="true" autostart="false"> </audio>
-        <audio id="myAudio1" src="www/media/1.wav" hidden="true" autostart="false"> </audio>
+        <audio id="myAudio4" src="./media/4.wav" hidden="true" autostart="false"> </audio>
+        <audio id="myAudio3" src="./media/3.wav" hidden="true" autostart="false"> </audio>
+        <audio id="myAudio2" src="./media/2.wav" hidden="true" autostart="false"> </audio>
+        <audio id="myAudio1" src="./media/1.wav" hidden="true" autostart="false"> </audio>
         <div id="onChatBox">
             <div id="chatNav">
                 <ul>
@@ -161,8 +161,8 @@
     <!-- 视频模块 结束 -->
     <!--<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>-->
     <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script>-->
-    <script src="www/js/jquery-2.1.4.min.js"></script>
-    <script src="www/js/socket.io.js"></script>
+    <script src="./js/jquery-2.1.4.min.js"></script>
+    <script src="./js/socket.io.js"></script>
     <script type="text/javascript">
         $(function () {
             $('#n').focus();
@@ -207,15 +207,15 @@
         //加载聊天表情列表
         function reloadEmojis() {
             var emojiArr = [
-                { 'src': 'www/img/face/01.jpeg', 'alt': '给你个眼神' },
-                { 'src': 'www/img/face/02.jpg', 'alt': '别装了' },
-                { 'src': 'www/img/face/03.png', 'alt': '想表达啥' },
-                { 'src': 'www/img/face/04.jpeg', 'alt': '表哥救命' },
-                { 'src': 'www/img/face/05.jpg', 'alt': '你是sb' },
-                { 'src': 'www/img/face/06.jpeg', 'alt': '活不过今天' },
-                { 'src': 'www/img/face/07.jpg', 'alt': '走，打死你' },
-                { 'src': 'www/img/face/08.jpeg', 'alt': '握日' },
-                { 'src': 'www/img/face/09.jpeg', 'alt': '你以为' },
+                { 'src': './img/face/01.jpeg', 'alt': '给你个眼神' },
+                { 'src': './img/face/02.jpg', 'alt': '别装了' },
+                { 'src': './img/face/03.png', 'alt': '想表达啥' },
+                { 'src': './img/face/04.jpeg', 'alt': '表哥救命' },
+                { 'src': './img/face/05.jpg', 'alt': '你是sb' },
+                { 'src': './img/face/06.jpeg', 'alt': '活不过今天' },
+                { 'src': './img/face/07.jpg', 'alt': '走，打死你' },
+                { 'src': './img/face/08.jpeg', 'alt': '握日' },
+                { 'src': './img/face/09.jpeg', 'alt': '你以为' },
             ]
             for (var i = emojiArr.length - 1; i >= 0; i--) {
                 var emojiItem = '<li class="emojia"><img class="emoji" src="' + emojiArr[i].src + '" alt="' + emojiArr[i].alt + '"><span>' + emojiArr[i].alt + '</span></li>';
@@ -329,7 +329,7 @@
             //这个地址根据自己机器所在局域网的地址修改
             //var baseURL="http://wcdemo.in.3322.org:17639";//公yun
             //var baseURL="http://192.168.1.103:3001";//根据本地ip配置，可以在同一网络环境下进行访问
-            var baseURL = "/"; //本机多浏览器窗口测试
+            var baseURL = ":3001/"; //本机多浏览器窗口测试
             //判断是否拥有摄像头支持
             $('#videotalk').click(function () {
                 confirm(
@@ -380,13 +380,13 @@
             });
         });
     </script>
-    <link rel="stylesheet" type="text/css" href="www/css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
     <!-- 引入弹出层插件 -->
-    <link rel="stylesheet" href="www/lib/jquery-alert/BeAlert.css">
-    <script src="www/lib/jquery-alert/BeAlert.js"></script>
-    <script type="text/javascript" src="www/js/client.js"></script>
-    <script type="text/javascript" src="www/js/whiteBoard.js"></script>
-    <script type="text/javascript" src="www/js/wc_piczoomIn.js"></script>
+    <link rel="stylesheet" href="./lib/jquery-alert/BeAlert.css">
+    <script src="./lib/jquery-alert/BeAlert.js"></script>
+    <script type="text/javascript" src="./js/client.js"></script>
+    <script type="text/javascript" src="./js/whiteBoard.js"></script>
+    <script type="text/javascript" src="./js/wc_piczoomIn.js"></script>
 </body>
 
 </html>

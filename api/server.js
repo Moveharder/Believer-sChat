@@ -6,8 +6,8 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 //var server = http.createServer(app);
 
-http.listen(3000, function() {
-    console.log('chat server running at *:3000');
+http.listen(80, function() {
+    console.log('chat server running at *:80');
 });
 // var reload = require('auto-reload');
 // var data = reload('server.js', 3600000); // 每 1hour重新加载一次
